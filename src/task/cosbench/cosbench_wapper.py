@@ -30,5 +30,3 @@ class CosbenchWapper(Wapper):
             if finish:
                 break
         self._parse_output(bytes.decode(stdout).splitlines())
-
-    def _parse_output(self, lines):
