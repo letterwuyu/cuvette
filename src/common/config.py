@@ -1,7 +1,9 @@
 from .singleton import SingletonType
 import configparser
 
-class DefaultConfig(metaclass=SingletonType):
+class DefaultConfig(object):
+
+    __metaclass__ = SingletonType
 
     def __init__(self):
         self._config = None
@@ -36,7 +38,9 @@ class DefaultConfig(metaclass=SingletonType):
     def get(self, key):
         return self._config[key]
 
-class MoudleConfig(metaclass=SingletonType):
+class MoudleConfig(object):
+
+    __metaclass__ = SingletonType
 
     MODULES = ['MDTest', 'IOR', 'FIO']
 

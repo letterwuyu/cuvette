@@ -85,7 +85,9 @@ class PrettyMain(ReportMain):
         def get_view(self):
             return self._pt
 
-class RetPrint(metaclass=SingletonType):
+class RetPrint(object):
+
+    __metaclass__ = SingletonType
 
     def __init__(self, report_type):
         self._report = self._create_report(report_type)
