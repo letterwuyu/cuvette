@@ -1,0 +1,30 @@
+%global commit @COMMIT@
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+Name:   cuvette
+Version:  @VERSION@
+Release:  @RELEASE@%{?dist}
+Summary:
+Group:
+License:  GPLv3
+
+URL:    https://github.com/pcuzner/ceph-iscsi-cli
+Source0:  %{name}-%{version}-%{shortcommit}.tar.gz
+BuildArch:  noarch
+
+%description
+
+%prep
+%setup -q 
+
+%install
+install -d %{buildroot}/usr/share/cuvette/cuvette/
+install src/* %{buildroot}/usr/share/cuvette/cuvette/
+install -d %{buildroot}/usr/share/cuvette/cuvette-ansible/
+install ansible/* %{buildroot}/usr/share/cuvette/cuvette-ansible/
+
+%files
+/usr/share/cuvette
+
+%changelog
+
+

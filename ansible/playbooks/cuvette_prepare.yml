@@ -1,0 +1,26 @@
+---
+- name: apply role cephfs_config
+  hosts: drivers
+  roles:
+    - {role: cephfs_config,
+       tags: cephfs_config,
+       when: mdtest_items is defined or ior_items is defined}
+
+- name: apply role rbd_create
+  hosts: mons[0]
+  roles:
+    - {role: rbd_create,
+       tags: rbd_create,
+       when: fio_items is defined}
+
+- name: apply role rbd_config
+  hosts: drivers
+  roles:
+    - {role: rbd_config,
+       tags: rbd_config,
+       when: fio_items is defined}
+
+- name: apply role confg
+  hosts: drivers
+  roles:
+    - {role: config, tags: config}

@@ -1,0 +1,21 @@
+- name: check mpihost exists
+  stat:
+    path: "{{ config_path }}/mpihost"
+  register: stat_result
+
+- name: rm mpihost
+  file:
+    path: "{{ config_path }}/mpihost"
+    stat: absent
+  when: stat_result.stat.exists == True
+
+- name: check cuvette.conf" exists
+  stat:
+    path: "{{ config_path }}/cuvette.conf"
+  register: stat_result
+
+- name: rm cuvette.conf"
+  file:
+    path: "{{ config_path }}/cuvette.conf"
+    stat: absent
+  when: stat_result.stat.exists == True

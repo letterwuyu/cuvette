@@ -1,0 +1,13 @@
+---
+- name: create test rbd volume
+  Rbd:
+    rbd_name: "test_volume_{{ item }}"
+    pool_name: "{{ test_rbd_pool }}"
+    state: "absent"
+  with_items: groups['driver']
+
+- name: create fio config file
+  fioconf:
+    filepath: "{{ config_path }}/fio/fio-{{ item.0 }}"
+    state: absent
+  with_indexed_items:

@@ -1,0 +1,26 @@
+{% if mdtest_items is defined %}
+{% for i in range(mdtest_items | length) %}
+[mdtest-{{ i }}]
+type=MDTest
+mdtest_option=mdtest {{ mdtest_testdirs[i] }}
+mpi_option=-np {{ mdtest_items[i]['npernode'] }} -hostfile {{ config_path }}/mpihost
+{% endfor %}
+{% endif %}
+
+{% if ior_items is defined %}
+{% for i in range(ior_items | length) %}
+[ior-{{ i }}]
+type=IOR
+ior_option=ior -f {{ config_path }}/ior/ior-{{ i }}
+mpi_option=-np {{ ior_items[i]['npernode'] }} -hostfile {{ config_path }}/mpihost
+{% endfor %}
+{% endif %}
+
+{% if fio_items is defined %}
+{% for i in range(fio_items | length) %}
+[fio-{{ i }}]
+type=FIO
+fio_option={{ config_path }}/fio/fio-{{ i }}
+mpi_option=-np 1 -hostfile {{ config_path }}/mpihost
+{% endfor %}
+{% endif %}

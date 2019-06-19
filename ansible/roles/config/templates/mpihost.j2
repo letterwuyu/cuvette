@@ -1,0 +1,3 @@
+{% for host in groups['drivers'] %}
+{{ host }} slots = {{ driver_slots }}
+{% endfor %}

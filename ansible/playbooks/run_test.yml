@@ -1,0 +1,5 @@
+---
+- name: run cuvette test
+  hosts: drivers[0]
+  tasks:
+      - shell: "/usr/shared/cuvette/src/main.py --conf {{ config_path }}/cuvette.conf"

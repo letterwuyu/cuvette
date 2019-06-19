@@ -1,0 +1,6 @@
+---
+- name: rm fio config file
+  fioconf:
+    filepath: "{{ config_path }}/fio/fio-{{ item.0 }}"
+    state: absent
+  with_indexed_items: "{{ fio_items }}"

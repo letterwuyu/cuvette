@@ -1,0 +1,28 @@
+---
+cephfs_mount_name: "admin"
+cephfs_mount_secret: "AQAToABd0lnjKhAAk4J/k8WEhOZgTU4p9O4R8w=="
+cephfs_mount_point: "/opt/cuvette"
+cephfs_mount_edge: "10.0.1.9:6789:/"
+config_path: "/etc/cuvette"
+install_path: "/usr/share/cuvette/"
+driver_slots: 4
+rbd_pool: rbd
+rbd_volume_size: 1G
+
+mdtest_items:
+  - npernode: 4
+  - npernode: 2
+
+ior_items:
+  - npernode: 4
+    blockSize: 32G
+  - npernode: 2
+    blockSize: 32G
+
+fio_items:
+  - direct: 1
+    rw: randwrite
+    bs: 4k
+    iodepth: 32
+    numjobs: 1
+    runtime: 30

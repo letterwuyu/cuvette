@@ -1,0 +1,45 @@
+---
+- name: check cephfs mount point exists
+  stat:
+    path: "{{ cephfs_mount_point }}"
+  register: stat_result
+
+- name: create cephfs mount point
+  file:
+    path: "{{ cephfs_mount_point }}"
+    state: directory
+  when: stat_result.stat.exists == False 
+
+- name: mount cephfs
+  command: "mount -t ceph {{ cephfs_mount_edge }} {{ cephfs_mount_point }} -o name={{ cephfs_mount_name }},secret={{ cephfs_mount_secret }}"
+  ignore_errors: yes
+
+- name: check test directory exists
+  stat:
+    path: "{{ cephfs_mount_point }}/{{ ansible_hostname }}"
+  register: stat_result
+
+- name: create test directory
+  file:
+    path: "{{ cephfs_mount_point }}/{{ ansible_hostname }}"
+    state: directory
+  when: stat_result.stat.exists == False
+
+- name: set fact file_test_dirs
+  set_fact:
+    file_test_dirs: |
+      {% set test_dirs = [] -%}
+      {%- for hostname in groups['drivers'] -%}
+      {% set ignore = test_dirs.append(cephfs_mount_point + '/' + hostname) -%}
+      {%- endfor -%}
+      {{test_dirs}}
+
+- name: create ior configure file
+  iorconf:
+    filepath: "{{ config_path }}/ior/ior-{{ item.0 }}"
+    npernode: "{{ item.1.npernode }}"
+    blockSize: "{{ item.1.blockSize }}"
+    testdirs: "{{ file_test_dirs | join(',') }}"
+    state: present
+  with_indexed_items:
+    - "{{ ior_items }}"

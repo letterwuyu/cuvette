@@ -1,0 +1,36 @@
+- name: check test directory exists
+  stat:
+    path: "{{ cephfs_mount_point }}/{{ ansible_hostname }}"
+  register: stat_result
+
+- name: rm test directory
+  file:
+    path: "{{ cephfs_mount_point }}/{{ ansible_hostname }}"
+    stat: absent
+  when: stat_result.stat.exists == True
+
+- name: umount cephfs
+  mount:
+    name: "{{ cephfs_mount_point }}"
+    src: "{{ cephfs_mount_edge }}"
+    fstype: "ceph"
+    opts: "name={{ cephfs_mount_name }},secret={{ cephfs_mount_edge }}"
+    state: absent
+
+- name: check cephfs mount point exists
+  stat:
+    path: "{{ cephfs_mount_point }}"
+  register: stat_result
+
+- name: rm cephfs mount point
+  file:
+    path: "{{ cephfs_mount_point }}"
+    stat: absent
+  when: stat_result.stat.exists == True
+
+- name: rm ior configure file
+  iorconf:
+    filepath: "{{ config_path }}/ior/ior-{{ item.0 }}"
+    state: absent
+  with_indexed_items:
+    - "{{ ior_test_item }}"

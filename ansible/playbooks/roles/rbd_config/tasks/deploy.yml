@@ -1,0 +1,14 @@
+---
+- name: create fio config file
+  fioconf:
+    filepath: "{{ config_path }}/fio/fio-{{ item.0 }}"
+    bs: "{{ item.1.bs }}"
+    rw: "{{ item.1.rw }}"
+    iodepth: "{{ item.1.iodepth }}"
+    direct: "{{ item.1.direct }}"
+    filename: "{{rbd_clientname}}/{{ rbd_pool }}/volume_{{ansible_hostname}}"
+    runtime: "{{ item.1.runtime }}"
+    numjobs: "{{ item.1.numjobs }}"
+    ioengine: "rbd"
+    state: present
+  with_indexed_items: "{{ fio_items }}"

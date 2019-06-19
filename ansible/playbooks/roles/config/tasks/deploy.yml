@@ -1,0 +1,16 @@
+---
+- include_tasks: compute_mdtest_testdir.yml
+
+- name: write mpihost
+  template:
+    src: "mpihost.j2"
+    dest: "{{ config_path }}/mpihost"
+    mode: "0644"
+  delegate_to: localhost
+
+- name: write cuvette.conf
+  template:
+    src: "cuvette.conf.j2"
+    dest: "{{ config_path }}/cuvette.conf"
+    mode: "0644"
+  delegate_to: localhost

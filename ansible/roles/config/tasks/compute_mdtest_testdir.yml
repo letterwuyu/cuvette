@@ -1,0 +1,17 @@
+---
+- name: set_fact mdtest_testdirs
+  set_fact:
+    mdtest_testdirs: |
+      {% set testdirs = [] -%} 
+      {%- for test_item in mdtest_items -%} 
+      {% set dir = [] -%} 
+      {%- for driver in groups['drivers'] -%} 
+      {%- for i in range(test_item['npernode'] | int) -%} 
+      {% set ignore = dir.append(cephfs_mount_point + '/' + driver + '/' + 'dir' + i|string) -%} 
+      {%- endfor -%} 
+      {%- endfor -%} 
+      {% set ignore = testdirs.append(dir | join('@')) -%} 
+      {%- endfor  -%} 
+      {{ testdirs }}
+  when:
+    - mdtest_items is defined

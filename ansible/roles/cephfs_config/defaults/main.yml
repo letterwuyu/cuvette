@@ -1,0 +1,3 @@
+---
+install_path: "/usr/share/cuvette"
+cephfs_mount_name: "admin"
