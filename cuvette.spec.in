@@ -3,11 +3,10 @@
 Name:   cuvette
 Version:  @VERSION@
 Release:  @RELEASE@%{?dist}
-Summary:
-Group:
+Summary:  a performance tools for ceph
 License:  GPLv3
 
-URL:    https://github.com/pcuzner/ceph-iscsi-cli
+URL:    https://github.com/letterwuyu/cuvette.git
 Source0:  %{name}-%{version}-%{shortcommit}.tar.gz
 BuildArch:  noarch
 
@@ -18,12 +17,15 @@ BuildArch:  noarch
 
 %install
 install -d %{buildroot}/usr/share/cuvette/cuvette/
-install src/* %{buildroot}/usr/share/cuvette/cuvette/
+cp -r src/* %{buildroot}/usr/share/cuvette/cuvette/
 install -d %{buildroot}/usr/share/cuvette/cuvette-ansible/
-install ansible/* %{buildroot}/usr/share/cuvette/cuvette-ansible/
+cp -r ansible/* %{buildroot}/usr/share/cuvette/cuvette-ansible/
+install -d %{buildroot}/etc/cuvette
+cp -r etc/* %{buildroot}/etc/cuvette
 
 %files
 /usr/share/cuvette
+/etc/cuvette
 
 %changelog
 
